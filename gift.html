@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stranger Year 2026 🚲</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Benguiat+ITC&display=swap'); 
+        @import url('https://fonts.googleapis.com/css2?family=Rye&family=Roboto+Mono:wght@500&display=swap');
+
+        body {
+            background-color: #000;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Roboto Mono', monospace;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        /* --- 1. VHS SCANLINES (RETRO TV EFFECT) --- */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 50;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* --- ATMOSPHERE --- */
+        .fog {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, transparent 0%, #000 90%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Floating Spores (Ash) */
+        .spore {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+            z-index: 2;
+            animation: float 8s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) translateX(20px); opacity: 0; }
+        }
+
+        /* --- TITLE CARD --- */
+        .title-container {
+            z-index: 10;
+            text-align: center;
+            transform: scale(0.8);
+            animation: slowZoom 15s ease-out forwards;
+        }
+
+        h1 {
+            font-family: 'Rye', serif;
+            font-size: 12vw;
+            margin: 0;
+            color: transparent;
+            -webkit-text-stroke: 3px #c00;
+            text-transform: uppercase;
+            letter-spacing: -5px;
+            filter: drop-shadow(0 0 20px #900);
+            position: relative;
+            animation: flicker 4s infinite;
+        }
+
+        .top-line {
+            font-size: 3vw;
+            letter-spacing: 5px;
+            display: block;
+            margin-bottom: -10px;
+            color: #c00;
+            text-shadow: 0 0 10px #c00;
+            font-weight: bold;
+        }
+
+        .glow-bar {
+            width: 0%;
+            height: 4px;
+            background: #c00;
+            box-shadow: 0 0 20px #f00;
+            margin: 20px auto;
+            animation: expandBar 4s ease-in-out forwards;
+            animation-delay: 1s;
+        }
+
+        /* --- WALKMAN PLAYER --- */
+        .walkman {
+            position: absolute;
+            bottom: 50px;
+            z-index: 60; /* Above scanlines */
+            text-align: center;
+        }
+
+        .tape-btn {
+            background: #111;
+            border: 2px solid #c00;
+            color: #c00;
+            padding: 15px 40px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 0 15px #c00;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .tape-btn:hover {
+            background: #c00;
+            color: #000;
+            box-shadow: 0 0 30px #c00;
+        }
+
+        /* --- MESSAGES --- */
+        .message-box {
+            margin-top: 40px;
+            font-size: 1.8rem;
+            color: #fff;
+            text-shadow: 0 0 10px #c00;
+            opacity: 0;
+            transition: opacity 1s;
+            z-index: 10;
+            max-width: 90%;
+            text-align: center;
+            background: rgba(0,0,0,0.8);
+            padding: 20px;
+            border-top: 2px solid #c00;
+            border-bottom: 2px solid #c00;
+        }
+
+        /* UPSIDE DOWN EFFECT */
+        .upside-down {
+            animation: worldFlip 3s forwards;
+        }
+        
+        @keyframes worldFlip {
+            0% { transform: rotate(0deg); filter: hue-rotate(0deg); }
+            100% { transform: rotate(180deg); filter: hue-rotate(180deg) invert(1) contrast(1.2); }
+        }
+
+        /* ANIMATIONS */
+        @keyframes slowZoom {
+            0% { transform: scale(20); opacity: 0; letter-spacing: 50px; }
+            15% { opacity: 1; }
+            100% { transform: scale(1); letter-spacing: -5px; }
+        }
+
+        @keyframes expandBar { to { width: 70%; } }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fog"></div>
+    <div id="spores-container"></div>
+
+    <div class="title-container" id="main-title">
+        <span class="top-line">WELCOME TO</span>
+        <h1>
+            <span>2</span><span>0</span><span>2</span><span>6</span>
+        </h1>
+        <div class="glow-bar"></div>
+    </div>
+
+    <div class="message-box" id="msg-area"></div>
+
+    <div class="walkman">
+        <button class="tape-btn" id="playBtn" onclick="playStrangerThings()">
+            ▶ PLAY INTRO THEME
+        </button>
+        <p style="color: #666; font-size: 10px; margin-top: 8px; letter-spacing: 1px;">WARNING: MAY OPEN PORTALS 👹</p>
+    </div>
+
+    <div id="player" style="display:none"></div>
+
+    <script>
+        // 1. Spores Generator
+        const sporeContainer = document.getElementById('spores-container');
+        for(let i=0; i<60; i++){
+            let s = document.createElement('div');
+            s.className = 'spore';
+            s.style.left = Math.random()*100 + 'vw';
+            s.style.width = Math.random()*6 + 2 + 'px';
+            s.style.height = s.style.width;
+            s.style.animationDuration = Math.random()*10 + 5 + 's';
+            s.style.animationDelay = Math.random()*5 + 's';
+            sporeContainer.appendChild(s);
+        }
+
+        // 2. Updated Funny Messages (Vecna & Will Added)
+        const messages = [
+            "Vecna tumhare dimaag mein ghusa... par wahan 'Empty Folder' dekh ke wapas chala gaya! 🧠💀",
+            "Tumhari halat Will Byers jaisi hai... Party mein sab hain par tumhe koi notice nahi kar raha! 🔦",
+            "Friends don't lie... par tumhara 'Kal se Padhunga' sabse bada jhooth hai! 🤥",
+            "2026 mein Demogorgon se bach sakte ho, par Rishtedaaro ke sawalo se nahi! 👽",
+            "Happy New Year! Run! The Gate is opening! 🚲💨"
+        ];
+        let msgIndex = 0;
+        const msgArea = document.getElementById('msg-area');
+        const playBtn = document.getElementById('playBtn');
+
+        // 3. YouTube API
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: '-RcPZdihrp4', // OFFICIAL STRANGER THINGS THEME
+                events: { 'onReady': onPlayerReady }
+            });
+        }
+        function onPlayerReady(event) { /* Ready */ }
+
+        function playStrangerThings() {
+            if(player && player.playVideo) {
+                player.playVideo();
+                player.setVolume(100);
+            }
+            
+            // UI Changes
+            playBtn.innerHTML = "🔊 PLAYING...";
+            playBtn.style.background = "#c00";
+            playBtn.style.color = "#000";
+
+            // Show Messages
+            showNextMessage();
+
+            // TRIGGER THE UPSIDE DOWN EFFECT (At beat drop ~15s)
+            setTimeout(() => {
+                document.body.classList.add('upside-down');
+                msgArea.innerHTML = "WELCOME TO THE UPSIDE DOWN! 🙃";
+                msgArea.style.color = "#c00";
+                msgArea.style.borderColor = "#fff";
+            }, 15000);
+        }
+
+        function showNextMessage() {
+            msgArea.style.opacity = 1;
+            msgArea.innerText = messages[msgIndex];
+            msgIndex = (msgIndex + 1) % messages.length;
+            
+            setTimeout(() => {
+                msgArea.style.opacity = 0;
+                setTimeout(showNextMessage, 1000); 
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
